@@ -5,12 +5,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Home extends StatefulWidget {
@@ -21,14 +18,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  // String js =
+  //     "document.querySelector('meta[name=\"viewport\"]').setAttribute('content', 'width=1024px, initial-scale=' + (document.documentElement.clientWidth / 1024));";
 
   @override
   void initState() {
     super.initState();
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
+      // WebView.platform = SurfaceDesktopWebView();
     }
   }
+
+  // String newUA =
+  //     "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +50,6 @@ class _HomeState extends State<Home> {
           onProgress: (int progress) {
             print('WebView is loading (progress : $progress%)');
           },
-          javascriptChannels: <JavascriptChannel>{
-            _toasterJavascriptChannel(context),
-          },
           onPageStarted: (String url) {
             print('Page started loading: $url');
           },
@@ -57,20 +57,11 @@ class _HomeState extends State<Home> {
             print('Page finished loading: $url');
           },
           gestureNavigationEnabled: true,
+          // userAgent: newUA,
+
           backgroundColor: const Color(0x00000000),
         );
       }),
     );
-  }
-
-  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: 'Toaster',
-        onMessageReceived: (JavascriptMessage message) {
-          // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        });
   }
 }
