@@ -36,13 +36,17 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
 
-      // We're using a Builder here so we have a context that is below the Scaffold
-      // to allow calling Scaffold.of(context) so we can show a snackbar.
-      body: Builder(builder: (BuildContext context) {
+        // We're using a Builder here so we have a context that is below the Scaffold
+        // to allow calling Scaffold.of(context) so we can show a snackbar.
+        body: Container(
+      constraints: BoxConstraints.expand(),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/Capture.PNG"), fit: BoxFit.cover)),
+      child: Builder(builder: (BuildContext context) {
         return WebView(
-          initialUrl: 'https://web.whatsapp.com/',
+          initialUrl: 'http://system.raad.pk/raad/',
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
@@ -62,6 +66,6 @@ class _HomeState extends State<Home> {
           backgroundColor: const Color(0x00000000),
         );
       }),
-    );
+    ));
   }
 }
